@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import io.aney.domain.User;
@@ -45,5 +46,13 @@ public class UserController {
 	public String updateForm(@PathVariable Long id, Model model) {
 		model.addAttribute("user", userRepository.findOne(id));
 		return "/user/updateForm";
+	}
+	
+	@PutMapping("/{id}")
+	public String update(@PathVariable Long id, User newUser) {
+		User user = userRepository.findOne(id);
+		user.update(newUser);
+		userRepository.save(user);
+		return "redirect:/users";
 	}
 }
